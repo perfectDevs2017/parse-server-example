@@ -36,7 +36,7 @@ Parse.Cloud.beforeSave("Article", function (request, response) {
         if (object) {
 		      object.set('name', request.object.get("name"));
 		      object.set('quantity', request.object.get("quantity"));
-              response.success(); // Abort Save. Else, this will create a duplicate entry 
+              object.save(); // Abort Save. Else, this will create a duplicate entry 
 
           } 
           else {
