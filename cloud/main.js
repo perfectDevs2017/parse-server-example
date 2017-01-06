@@ -28,14 +28,16 @@ function getSequence(className,callback) {
 
 Parse.Cloud.beforeSave("Article", function (request, response) { 
 
-      var articleBoard = Parse.Object.extend("Article");
+     var articleBoard = Parse.Object.extend("Article");
   var query = new Parse.Query(articleBoard);
+  query.equalTo("groupId", request.object.get("groupId"));
   query.first({
     success: function(results) {
 	 if (results) {
-      results.set("name",request.object.get("name"));
-      results.set("quantity",request.object.get("quantity"));
+      results.set("name",request.params.name);
+      results.set("quantity",request.params.quantity);
       results.save();
+      response.success("success");
 	  }
 	  else
 	  {
@@ -54,7 +56,6 @@ Parse.Cloud.beforeSave("Article", function (request, response) {
       response.error("movie lookup failed");
     }
   });
-
 });
 
 Parse.Cloud.beforeSave("Inventory", function (request, response) { 
