@@ -33,7 +33,7 @@ Parse.Cloud.beforeSave("Article", function (request, response) {
 	query.equalTo("groupId","1002");
     query.first({ 
         success: function(object) {
-		      object.set('quantity', 203);
+            object.increment("quantity");
             object.save();
         }, error: function (error) {
             console.log(error);
