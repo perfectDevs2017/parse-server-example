@@ -27,20 +27,38 @@ function getSequence(className,callback) {
 };
 
 Parse.Cloud.beforeSave("Article", function (request, response) { 
-
-    if (request.object.isNew()) {
-      var className = "Article";
-        getSequence(className,function(sequence) { 
-            if (sequence) {
-                request.object.set("bindingByte", sequence);
-                response.success();
-            } else {
-                response.error('Could not get a sequence.')
-            }
-        });
-    } else {
-        response.success();
-    }
+ var Entity = Parse.Object.extend("Article");
+    var query = new Parse.Query(Entity);
+    query.equalTo("groupId", "1002");
+  
+   query.first({ 
+        success: function(object) {
+          if(object)
+          {
+            request.object.set("quantity", 203);
+            response.success();
+          }
+          else
+          {
+            var className = "Article";
+            getSequence(className,function(sequence) { 
+                if (sequence) {
+                    request.object.set("bindingByte", sequence);
+                    response.success();
+                } else {
+                    response.error('Could not get a sequence.')
+                }
+            });
+          }
+            
+          
+        }, error: function (error) {
+            console.log(error);
+          
+        }
+    });
+  
+  
 });
 
 Parse.Cloud.beforeSave("Inventory", function (request, response) { 
