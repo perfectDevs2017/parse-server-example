@@ -28,34 +28,32 @@ function getSequence(className,callback) {
 
 Parse.Cloud.beforeSave("Article", function (request, response) { 
 
-     var articleBoard = Parse.Object.extend("Article");
-  var query = new Parse.Query(articleBoard);
-  query.equalTo("groupId", request.object.get("groupId"));
-  query.first({
-    success: function(results) {
-	 if (results) {
-      results.set("name",request.params.name);
-      results.set("quantity",request.params.quantity);
-      results.save();
-      response.success("success");
-	  }
-	  else
-	  {
-		var className = "Article";
-        getSequence(className,function(sequence) { 
-            if (sequence) {
-                request.object.set("bindingByte", sequence);
-                response.success();
-            } else {
-                response.error('Could not get a sequence.');
-            }
-        });
-	  }
-    },
-    error: function() {
-      response.error("movie lookup failed");
-    }
-  });
+     var query = new Parse.Query("Article");
+	query.equalTo("groupId", request.params.groupId);
+	query.find({
+		success: function(results) {
+		if (results) {
+			results.set("name",request.params.name);
+			results.set("quantity",request.params.quantity);
+			results.save();
+		}
+		else
+		{
+			var className = "Article";
+			getSequence(className,function(sequence) { 
+				if (sequence) {
+					request.object.set("bindingByte", sequence);
+					response.success();
+				} else {
+					response.error('Could not get a sequence.');
+				}
+			});
+		}
+		},
+		error: function() {
+		  response.error("movie lookup failed");
+		}
+	});
 });
 
 Parse.Cloud.beforeSave("Inventory", function (request, response) { 
