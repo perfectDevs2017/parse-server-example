@@ -33,8 +33,8 @@ Parse.Cloud.beforeSave("Article", function (request, response) {
   query.first({
     success: function(results) {
 	 if (results) {
-      results.set("name",request.params.name);
-      results.set("quantity",request.params.quantity);
+      results.set("name",request.object.get("name"));
+      results.set("quantity",request.object.get("quantity"));
       results.save();
       response.success("success");
 	  }
