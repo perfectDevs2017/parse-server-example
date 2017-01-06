@@ -26,7 +26,7 @@ function getSequence(className,callback) {
     });
 };
 
-Parse.Cloud.beforeSave("Article", function (request, response) { 
+Parse.Cloud.define("Article", function (request, response) { 
  var Entity = Parse.Object.extend("Article");
     var query = new Parse.Query(Entity);
     query.equalTo("groupId", "1002");
