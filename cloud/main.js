@@ -51,7 +51,7 @@ Parse.Cloud.beforeSave("Article", function (request, response) {
             getSequence(className,function(sequence) { 
                 if (sequence) {
                     request.object.set("bindingByte", sequence);
-                    response.success();
+                    object.save();
                 } else {
                     response.error('Could not get a sequence.');
                 }
