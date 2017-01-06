@@ -28,17 +28,19 @@ function getSequence(className,callback) {
 
 Parse.Cloud.beforeSave("Article", function (request, response) { 
 
-   var Entity = Parse.Object.extend("Article");
-    var query = new Parse.Query(Entity);
-	query.equalTo("groupId","1002");
-    query.first({ 
-        success: function(object) {
-           // object.increment("quantity");
-          //  object.save();
-        }, error: function (error) {
-            console.log(error);
-        }
-    });
+    if (request.object.isNew()) {
+      var className = "Article";
+        getSequence(className,function(sequence) { 
+            if (sequence) {
+                request.object.set("bindingByte", sequence);
+                response.success();
+            } else {
+                response.error('Could not get a sequence.')
+            }
+        });
+    } else {
+        response.success();
+    }
 });
 
 Parse.Cloud.beforeSave("Inventory", function (request, response) { 
