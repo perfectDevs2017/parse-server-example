@@ -44,14 +44,14 @@ Parse.Cloud.beforeSave("Article", function (request, response) {
         //Instead, update existing object.
         object.set('name', name);
         object.set('quantity', quantity);
-         response.success();
+        object.save();
       } else {
         //Continuing and save the new Article object because it is not a duplicate.
         var className = "Article";
             getSequence(className,function(sequence) { 
                 if (sequence) {
                     request.object.set("bindingByte", sequence);
-                    object.save();
+                  response.success();
                 } else {
                     response.error('Could not get a sequence.');
                 }
