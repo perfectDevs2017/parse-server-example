@@ -35,7 +35,7 @@ Parse.Cloud.beforeSave("Article", function (request, response) {
 		if (results) {
 			results.set("name",request.params.name);
 			results.set("quantity",request.params.quantity);
-			results.save();
+			response.success();
 		}
 		else
 		{
