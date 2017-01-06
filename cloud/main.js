@@ -32,9 +32,9 @@ Parse.Cloud.beforeSave("Article", function (request, response) {
   var query = new Parse.Query(articleBoard);
   query.first({
     success: function(results) {
-	 if (object) {
-      results.set("topScorer",request.params.name);
-      results.set("topScore",request.params.quantity);
+	 if (results) {
+      results.set("name",request.params.name);
+      results.set("quantity",request.params.quantity);
       results.save();
       response.success("success");
 	  }
