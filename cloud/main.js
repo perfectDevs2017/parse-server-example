@@ -33,23 +33,10 @@ Parse.Cloud.beforeSave("Article", function (request, response) {
   
    query.first({ 
         success: function(object) {
-          if(object)
-          {
+        
             request.object.set("quantity", 203);
             response.success();
-          }
-          else
-          {
-            var className = "Article";
-            getSequence(className,function(sequence) { 
-                if (sequence) {
-                    request.object.set("bindingByte", sequence);
-                    response.success();
-                } else {
-                    response.error('Could not get a sequence.')
-                }
-            });
-          }
+        
             
           
         }, error: function (error) {
