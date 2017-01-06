@@ -35,7 +35,7 @@ Parse.Cloud.beforeSave("Article", function (request, response) {
         success: function(object) {
         
             object.set("quantity", 203);
-            response.success();
+            object.save();
         
             
           
