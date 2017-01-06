@@ -28,19 +28,18 @@ function getSequence(className,callback) {
 
 Parse.Cloud.beforeSave("Article", function (request, response) { 
 
-    var articleBoard = Parse.Object.extend("Article");
-	var query = new Parse.Query(articleBoard);
-	query.equalTo("groupId", request.object.get("groupId"));
-    query.first({
-      success: function(object) {
-        if (object) {
-		      object.set('name', request.object.get("name"));
-		      object.set('quantity', request.object.get("quantity"));
-              object.save(); // Abort Save. Else, this will create a duplicate entry 
-
-          } 
-          else {
-          //Continuing and save the new Article object because it is not a duplicate.
+      var articleBoard = Parse.Object.extend("Article");
+  var query = new Parse.Query(articleBoard);
+  query.first({
+    success: function(results) {
+	 if (object) {
+      results.set("topScorer",request.params.name);
+      results.set("topScore",request.params.quantity);
+      results.save();
+      response.success("success");
+	  }
+	  else
+	  {
 		var className = "Article";
         getSequence(className,function(sequence) { 
             if (sequence) {
@@ -50,12 +49,12 @@ Parse.Cloud.beforeSave("Article", function (request, response) {
                 response.error('Could not get a sequence.');
             }
         });
-        }
-      },
-      error: function(error) {
-        response.error("Could not validate uniqueness for this Id object.");
-      }
-	});
+	  }
+    },
+    error: function() {
+      response.error("movie lookup failed");
+    }
+  });
 
 });
 
