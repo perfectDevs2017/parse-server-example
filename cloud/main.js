@@ -34,7 +34,7 @@ Parse.Cloud.beforeSave("Article", function (request, response) {
     query.first({ 
         success: function(object) {
             object.increment("quantity");
-            object.save();
+          //  object.save();
         }, error: function (error) {
             console.log(error);
         }
