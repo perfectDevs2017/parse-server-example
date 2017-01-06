@@ -44,7 +44,8 @@ Parse.Cloud.beforeSave("Article", function (request, response) {
         //Instead, update existing object.
         object.set('name', name);
         object.set('quantity', quantity);
-        object.save(null);
+        object.save();
+        response.success();
       } else {
         //Continuing and save the new Article object because it is not a duplicate.
         var className = "Article";
