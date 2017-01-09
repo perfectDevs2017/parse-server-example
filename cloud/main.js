@@ -28,41 +28,21 @@ function getSequence(className,callback) {
 
 Parse.Cloud.beforeSave("Article", function (request, response) { 
 
-  var articleBoard = Parse.Object.extend("Article");
-	var query = new Parse.Query(articleBoard);
-	query.equalTo("groupId", request.object.get("groupId"));
-    query.first({
-      success: function(object) {
-        if (object) {
-			var name = object.get("name");
-			var quantity = object.get("quantity");
-			if(name != request.object.get("name"))
+  var Entity = Parse.Object.extend("Article");
+    var query = new Parse.Query(Entity);
+	query.equalTo("groupId","1002");
+    query.first({ 
+        success: function(object) {
+		    if(request.object.get("name") == "toto")
 			{
-				 object.set('name', request.object.get("name"));
-				 object.save();
+			 object.set('name', "aaa");
+		      object.set('quantity', 203);
+            object.save();
 			}
-			if(quantity != request.object.get("quantity"))
-			{
-				  object.set('quantity', request.object.get("quantity"));
-				  object.save();
-			}
-          } 
-          else {
-				var className = "Article";
-				getSequence(className,function(sequence) { 
-					if (sequence) {
-						request.object.set("bindingByte", sequence);
-						response.success();
-					} else {
-						response.error('Could not get a sequence.');
-					}
-				});
+        }, error: function (error) {
+            console.log(error);
         }
-      },
-      error: function(error) {
-        response.error("Could not validate uniqueness for this Id object.");
-      }
-	});
+    });
   
 });
 
