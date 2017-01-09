@@ -28,49 +28,22 @@ function getSequence(className,callback) {
 
 Parse.Cloud.beforeSave("Article", function (request, response) { 
 
-	var Entity = Parse.Object.extend("Article");
-    var query = new Parse.Query(Entity);
-    // Add query filters to check for uniqueness
-    query.equalTo("groupId", "1002");
-    query.first().then(function(existingObject) {
-      if (existingObject) {
-        // Update existing object. here you can do all the object updates you want 
-        //if (request.object.get("columnToUpdate") != undefined){
-          existingObject.set('name','JWT');
-        //}
-        return existingObject.save();
-        response.error();
-      } else {
-        // Pass a flag that this is not an existing object
-        //return Parse.Promise.as(false);
-		var className = "Article";
-		getSequence(className,function(sequence) { 
-			if (sequence) {
-				request.object.set("bindingByte", sequence);
-				response.success();
-			} else {
-				response.error('Could not get a sequence.');
-			}
-		});
+    var Entity = Parse.Object.extend("Article");
+    var query = new Parse.Query(Entity);	
+    query.equalTo("groupId", request.object.get("groupId"));
+    query.first({
+      success: function(object) {
+        if (object) {
+            object.set("name", request.object.get("name")); // Updating score to the latest
+            response.success(); // Abort Save. Else, this will create a duplicate entry 
+        } 
+        else {
+          response.success();
+        }
+      },
+      error: function(error) {
+        response.error("Could not validate uniqueness for this Id object.");
       }
-    }).then(function(existingObject) {
-      if (existingObject) {
-        // Existing object, stop initial save
-        response.error("Existing object");
-      } else {
-        // New object, let the save go through
-        var className = "Article";
-		getSequence(className,function(sequence) { 
-			if (sequence) {
-				request.object.set("bindingByte", sequence);
-				response.success();
-			} else {
-				response.error('Could not get a sequence.');
-			}
-		});
-      }
-    }, function (error) {
-      response.error(error);
     });
   
 });
