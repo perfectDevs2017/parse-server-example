@@ -35,7 +35,7 @@ Parse.Cloud.beforeSave("Article", function (request, response) {
       success: function(object) {
         if (object) {
             object.set("name", request.object.get("name")); // Updating score to the latest
-            response.success(); // Abort Save. Else, this will create a duplicate entry 
+            object.save(); // Abort Save. Else, this will create a duplicate entry 
         } 
        
       },
