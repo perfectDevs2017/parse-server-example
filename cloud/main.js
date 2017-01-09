@@ -40,8 +40,8 @@ Parse.Cloud.beforeSave("Article", function (request, response) {
 				{
 					object.set('name', request.object.get("name"));
 					//request.object.save();
-					response.success("updated success");
-					//object.save();
+					//response.success("updated success");
+					object.save();
 				}
 				
 			}
