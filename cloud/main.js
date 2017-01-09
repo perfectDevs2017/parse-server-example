@@ -40,7 +40,7 @@ Parse.Cloud.beforeSave("Article", function (request, response) {
 				var name2 = object.get('name');
 				if(name != name2)
 				{
-					request.object.set("name", "jn");
+					request.object.set("name", "aaa");
 					response.success();
 					//object.save();
 				}
