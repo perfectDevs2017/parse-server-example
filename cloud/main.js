@@ -30,16 +30,24 @@ Parse.Cloud.beforeSave("Article", function (request, response) {
 
   var Entity = Parse.Object.extend("Article");
     var query = new Parse.Query(Entity);
-	//query.equalTo("groupId","1002");
-	query.equalTo("name","test3");
+	var name = request.object.get("name");
+	var quantity = request.object.get("quantity");
+	query.equalTo("groupId","1002");
     query.first({ 
         success: function(object) {
 		    if(object)
 		    {
-				object.set('name', "aaa");
-				object.set('quantity', 203);
-				object.save();
-				response.success();
+				var name2 = object.get('name');
+				if(name != name2)
+				{
+					object.set('name', "bbb");
+					object.save();
+					response.success();
+				}
+				
+				//object.set('name', "aaa");
+				//object.set('quantity', 203);
+				
 			}
 			else
 			{
