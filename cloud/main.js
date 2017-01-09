@@ -40,7 +40,7 @@ var Entity = Parse.Object.extend("Article");
 				var name2 = object.get('name');
 				if(name != name2)
 				{
-					request.object.set("name", "aaa");
+					object.set("name", "aaa");
 					//response.success();
 					//object.save();
 				}
