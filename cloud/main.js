@@ -30,15 +30,28 @@ Parse.Cloud.beforeSave("Article", function (request, response) {
 
   var Entity = Parse.Object.extend("Article");
     var query = new Parse.Query(Entity);
-	query.equalTo("groupId","1002");
+	query.equalTo("groupId","1004");
     query.first({ 
         success: function(object) {
-		    if(request.object.get("name") == "toto")
-			{
-			 object.set('name', "aaa");
-		      object.set('quantity', 203);
-            object.save();
+		    if(object)
+		    {
+				object.set('name', "aaa");
+				object.set('quantity', 203);
+				object.save();
 			}
+			else
+			{
+				var className = "Article";
+				getSequence(className,function(sequence) { 
+					if (sequence) {
+						request.object.set("bindingByte", sequence);
+						response.success();
+					} else {
+						response.error('Could not get a sequence.');
+					}
+				});
+			}
+			
         }, error: function (error) {
             console.log(error);
         }
