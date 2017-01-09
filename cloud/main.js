@@ -30,7 +30,8 @@ Parse.Cloud.beforeSave("Article", function (request, response) {
 
   var Entity = Parse.Object.extend("Article");
     var query = new Parse.Query(Entity);
-	query.equalTo("groupId","1004");
+	//query.equalTo("groupId","1002");
+	query.equalTo("name","test3");
     query.first({ 
         success: function(object) {
 		    if(object)
