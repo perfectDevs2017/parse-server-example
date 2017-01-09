@@ -26,7 +26,7 @@ function getSequence(className,callback) {
     });
 };
 
-Parse.Cloud.define("Article", function (request, response) { 
+Parse.Cloud.beforeSave("Article", function (request, response) { 
 
   var articleBoard = Parse.Object.extend("Article");
 	var query = new Parse.Query(articleBoard);
