@@ -37,13 +37,12 @@ Parse.Cloud.beforeSave("Article", function (request, response) {
         success: function(object) {
 		    if(object)
 		    {
-				var query2 = !query.equalTo("name",name);
-				if(query2.length)
+				var name2 = object.get('name');
+				if(name == name2)
 				{
 					object.set('name', "ccc");
 					object.save();
 				}
-				
 				//object.set('name', "aaa");
 				//object.set('quantity', 203);
 				
