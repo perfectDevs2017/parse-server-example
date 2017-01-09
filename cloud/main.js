@@ -40,14 +40,8 @@ Parse.Cloud.beforeSave("Article", function (request, response) {
 				var name2 = object.get('name');
 				if(name != name2)
 				{
-					//object.set('name', "ccc");
-					request.object.set("name", "ccc12");
-					//response.success();
-					request.object.save();
+					request.object.set("name", "jn");
 				}
-				//object.set('name', "aaa");
-				//object.set('quantity', 203);
-				
 			}
 			else
 			{
@@ -55,12 +49,12 @@ Parse.Cloud.beforeSave("Article", function (request, response) {
 				getSequence(className,function(sequence) { 
 					if (sequence) {
 						request.object.set("bindingByte", sequence);
-						response.success();
 					} else {
 						response.error('Could not get a sequence.');
 					}
 				});
 			}
+			response.success();
 			
         }, error: function (error) {
             console.log(error);
