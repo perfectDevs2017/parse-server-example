@@ -43,7 +43,7 @@ Parse.Cloud.beforeSave("Article", function (request, response) {
 					//object.set('name', "ccc");
 					request.object.set("name", "ccc12");
 					//response.success();
-					request.save();
+					request.object.save();
 				}
 				//object.set('name', "aaa");
 				//object.set('quantity', 203);
