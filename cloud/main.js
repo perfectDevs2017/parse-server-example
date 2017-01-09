@@ -37,9 +37,7 @@ Parse.Cloud.beforeSave("Article", function (request, response) {
             object.set("name", request.object.get("name")); // Updating score to the latest
             response.success(); // Abort Save. Else, this will create a duplicate entry 
         } 
-        else {
-          response.success();
-        }
+       
       },
       error: function(error) {
         response.error("Could not validate uniqueness for this Id object.");
