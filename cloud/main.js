@@ -27,24 +27,42 @@ function getSequence(className,callback) {
 };
 
 Parse.Cloud.define("Article", function (request, response) { 
- var Entity = Parse.Object.extend("Article");
-    var query = new Parse.Query(Entity);
-    query.equalTo("groupId", "1002");
-  
-   query.first({ 
-        success: function(object) {
-        
-            object.set("quantity", 204);
-            object.save();
-        
-            
-          
-        }, error: function (error) {
-            console.log(error);
-          
+
+  var articleBoard = Parse.Object.extend("Article");
+	var query = new Parse.Query(articleBoard);
+	query.equalTo("groupId", request.object.get("groupId"));
+    query.first({
+      success: function(object) {
+        if (object) {
+			var name = object.get("name");
+			var quantity = object.get("quantity");
+			if(name != request.object.get("name"))
+			{
+				 object.set('name', request.object.get("name"));
+				 object.save();
+			}
+			if(quantity != request.object.get("quantity"))
+			{
+				  object.set('quantity', request.object.get("quantity"));
+				  object.save();
+			}
+          } 
+          else {
+				var className = "Article";
+				getSequence(className,function(sequence) { 
+					if (sequence) {
+						request.object.set("bindingByte", sequence);
+						response.success();
+					} else {
+						response.error('Could not get a sequence.');
+					}
+				});
         }
-    });
-  
+      },
+      error: function(error) {
+        response.error("Could not validate uniqueness for this Id object.");
+      }
+	});
   
 });
 
