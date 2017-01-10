@@ -39,9 +39,9 @@ var Entity = Parse.Object.extend("Article");
 				oldVote.set("objectId",object.get("objectId"));
 				oldVote.fetch({
 					success: function(oldVote) {
-						//if (request.object.get("name") != oldVote('name')) {
+						if (request.object.get("name") != oldVote('name')) {
 							response.success();
-						//}
+						}
 						
 					},
 					error: function(oldVote, error) {
