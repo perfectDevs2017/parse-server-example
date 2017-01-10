@@ -26,9 +26,9 @@ function getSequence(className,callback) {
     });
 };
 
-Parse.Cloud.define("BatchArticle", function (request, response) { 
+Parse.Cloud.define("batchArticle", function (request, response) { 
 
-    var Entity = Parse.Object.extend("Article");
+     var Entity = Parse.Object.extend("Article");
     var query = new Parse.Query(Entity);
 	query.equalTo("groupId",request.object.get("groupId"));
     query.first({ 
@@ -38,8 +38,8 @@ Parse.Cloud.define("BatchArticle", function (request, response) {
 				//if(request.object.get("name") != object.get("name"))
 				//{
 					object.set('name', request.object.get("name"));
-			    		response.success();
-					//object.save();
+					object.save();
+					response.success('Hi');
 					//response.error('Object already exists and was modified');
 				//}
 				
