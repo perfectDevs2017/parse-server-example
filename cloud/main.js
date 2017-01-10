@@ -28,7 +28,7 @@ function getSequence(className,callback) {
 
 Parse.Cloud.beforeSave("Article", function (request, response) { 
 
- var Entity = Parse.Object.extend("Article");
+var Entity = Parse.Object.extend("Article");
 	var query = new Parse.Query(Entity);
 	query.equalTo("groupId",request.object.get("groupId"));
 	 query.first({ 
@@ -36,12 +36,12 @@ Parse.Cloud.beforeSave("Article", function (request, response) {
 		    if(object)
 		    {
 				var oldVote = new Entity();
-				oldVote.set("objectId",object.objectId);
+				oldVote.set("objectId",object.get("objectId"));
 				oldVote.fetch({
 					success: function(oldVote) {
-						if (request.object.get("name") != oldVote('name')) {
+						//if (request.object.get("name") != oldVote('name')) {
 							response.success();
-						}
+						//}
 						
 					},
 					error: function(oldVote, error) {
