@@ -1,6 +1,6 @@
 
 Parse.Cloud.define('hello', function(req, res) {
-  res.success(req.params.groupId);
+  res.success('Hi');
 });
 
 function getSequence(className,callback) {
@@ -28,16 +28,18 @@ function getSequence(className,callback) {
 
 Parse.Cloud.define("batchArticle", function (request, response) { 
 
-     var Entity = Parse.Object.extend("Article");
+    var Entity = Parse.Object.extend("Article");
     var query = new Parse.Query(Entity);
-	query.equalTo("groupId",request.object.get("groupId"));
+	//query.equalTo("groupId",request.object.get("groupId"));
+	query.equalTo("groupId",request.params.groupId);
     query.first({ 
         success: function(object) {
 		    if(object)
 		    {
 				//if(request.object.get("name") != object.get("name"))
 				//{
-					object.set('name', request.object.get("name"));
+					//object.set('name', request.object.get("name"));
+					object.set('name', request.params.name);
 					object.save();
 					response.success('Hi');
 					//response.error('Object already exists and was modified');
