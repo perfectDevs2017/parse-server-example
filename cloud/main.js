@@ -1,6 +1,6 @@
 
 Parse.Cloud.define('hello', function(req, res) {
-  res.success('Hi');
+  res.success(req.params.groupId);
 });
 
 function getSequence(className,callback) {
