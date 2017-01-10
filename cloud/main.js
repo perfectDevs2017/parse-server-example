@@ -26,21 +26,21 @@ function getSequence(className,callback) {
     });
 };
 
-Parse.Cloud.beforeSave("Article", function (request, response) { 
+Parse.Cloud.define("BatchArticle", function (request, response) { 
 
-   var Entity = Parse.Object.extend("Article");
+    var Entity = Parse.Object.extend("Article");
     var query = new Parse.Query(Entity);
 	query.equalTo("groupId",request.object.get("groupId"));
     query.first({ 
         success: function(object) {
 		    if(object)
 		    {
-				if(request.object.get("name") != object.get("name"))
-				{
+				//if(request.object.get("name") != object.get("name"))
+				//{
 					object.set('name', request.object.get("name"));
-					object.saveInBackground();
-					response.error('Object already exists and was modified');
-				}
+					object.save();
+					//response.error('Object already exists and was modified');
+				//}
 				
 			}
 			else
