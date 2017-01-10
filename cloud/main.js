@@ -38,7 +38,8 @@ Parse.Cloud.define("BatchArticle", function (request, response) {
 				//if(request.object.get("name") != object.get("name"))
 				//{
 					object.set('name', request.object.get("name"));
-					object.save();
+			    		response.success();
+					//object.save();
 					//response.error('Object already exists and was modified');
 				//}
 				
