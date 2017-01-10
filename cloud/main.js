@@ -38,10 +38,11 @@ Parse.Cloud.beforeSave("Article", function (request, response) {
 				if(request.object.get("name") !== object.get("name"))
 				{
 					object.set("objectId",object.objectId);
-					request.object.set("objectId", object.objectId);
 					object.set('name', request.object.get("name"));
-					//object.save();
-					response.success();
+					request.object.set("objectId", object.objectId);
+					object.save();
+					request.object.save();
+					//response.success();
 				}
 				
 			}
