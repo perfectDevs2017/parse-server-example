@@ -29,27 +29,18 @@ function getSequence(className,callback) {
 Parse.Cloud.beforeSave("Article", function (request, response) { 
 
 var Entity = Parse.Object.extend("Article");
-	var query = new Parse.Query(Entity);
+    var query = new Parse.Query(Entity);
 	query.equalTo("groupId",request.object.get("groupId"));
-	 query.first({ 
+    query.first({ 
         success: function(object) {
 		    if(object)
 		    {
-				var oldVote = new Entity();
-				oldVote.set("objectId",object.objectId);
-				oldVote.fetch({
-					success: function(oldVote) {
-						if (request.object.get("name") !== oldVote('name')) {
-							response.success();
-						}
-						
-						
-					},
-					error: function(oldVote, error) {
-						response.error(error.message);
-					}
-				});
-			
+				if(request.object.get("name") !== object.get("name"))
+				{
+					object.set('name', request.object.get("name"));
+					//object.save();
+					response.success();
+				}
 				
 			}
 			else
