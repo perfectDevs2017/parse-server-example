@@ -28,10 +28,42 @@ function getSequence(className,callback) {
 
 Parse.Cloud.define("batchArticle", function (request, response) { 
 
-    var Entity = Parse.Object.extend("Article");
+   var Entity = Parse.Object.extend("Article");
     var query = new Parse.Query(Entity);
 	query.equalTo("groupId",request.params.groupId);
 	response.success(request.params.groupId);
+	
+    query.first({ 
+        success: function(object) {
+		    if(object)
+		    {
+				//if(request.object.get("name") != object.get("name"))
+				//{
+					//object.set('name', request.object.get("name"));
+					object.set('name', request.params.name);
+					//object.save();
+					response.success();
+					//response.error('Object already exists and was modified');
+				//}
+				
+			}
+			else
+			{
+				var className = "Article";
+				getSequence(className,function(sequence) { 
+					if (sequence) {
+						request.object.set("bindingByte", sequence);
+						response.success();
+					} else {
+						response.error('Could not get a sequence.');
+					}
+				});
+			}
+			
+        }, error: function (error) {
+            console.log(error);
+        }
+    });
   
 });
 
